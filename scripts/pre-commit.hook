@@ -21,7 +21,7 @@ fi
 if [ -z "$($CPPCHECK --version | grep -E '^Cppcheck\s2')" ]; then
     # Second, Cppcheck 1.x
     CPPCHECK_VER=$($CPPCHECK --version | sed -Ee 's/Cppcheck 1.([0-9]+)/\1/;q')
-    if [ $CPPCHECK_VER -lt 90 ]; then
+    if [ $CPPCHECK_VER -lt 190 ]; then
         echo "[!] cppcheck version must be at least 1.90." >&2
         echo -e "    Check 'Developer Info' for building Cppcheck from source:\n" \
                 "          http://cppcheck.sourceforge.net/devinfo/" >&2
