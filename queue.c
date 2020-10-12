@@ -24,9 +24,15 @@ queue_t *q_new()
 /* Free all storage used by queue */
 void q_free(queue_t *q)
 {
-    /* TODO: How about freeing the list elements and the strings? */
-    /* Free queue structure */
-    free(q);
+    if (!q)
+        return;
+    list_ele_t *tmp = q->head;
+    while (q->head) {
+        q->head = q->head->next;
+        free(tmp->value);
+        free(tmp);
+        tmp = q->head;
+    }
 }
 
 /*
@@ -38,12 +44,32 @@ void q_free(queue_t *q)
  */
 bool q_insert_head(queue_t *q, char *s)
 {
+    if (!q)
+        return false;
+
     list_ele_t *newh;
     newh = malloc(sizeof(list_ele_t));
-    /* Don't forget to allocate space for the string and copy it */
-    /* What if either call to malloc returns NULL? */
+    if (!newh)
+        return false;
+
+    int len = sizeof(char) * (strlen(s) + 1);
+    char *tmp = malloc(len);
+    if (!tmp) {
+        free(newh);
+        return false;
+    }
+
+    memcpy(tmp, s, len);
+    newh->value = tmp;
     newh->next = q->head;
     q->head = newh;
+
+    if (!q->tail) {
+        q->tail = q->head;
+    }
+
+    q->size += 1;
+
     return true;
 }
 
