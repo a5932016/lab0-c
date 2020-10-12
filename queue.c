@@ -26,13 +26,13 @@ void q_free(queue_t *q)
 {
     if (!q)
         return;
-    list_ele_t *tmp = q->head;
     while (q->head) {
+        list_ele_t *tmp = q->head;
         q->head = q->head->next;
         free(tmp->value);
         free(tmp);
-        tmp = q->head;
     }
+    free(q);
 }
 
 /*
