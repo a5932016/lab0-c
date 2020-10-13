@@ -185,7 +185,6 @@ void q_reverse(queue_t *q)
  * Merge Sort
  * sort the linked list
  * head is list_ele_t
- * BigO(log2N)
  */
 void mergeSort(list_ele_t **head)
 {
