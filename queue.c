@@ -182,12 +182,58 @@ void q_reverse(queue_t *q)
 }
 
 /*
+ * Merge Sort
+ * sort the linked list
+ * head is list_ele_t
+ * BigO(log2N)
+ */
+void mergeSort(list_ele_t **head)
+{
+    if (!*head || !(*head)->next)
+        return;
+    list_ele_t *l1 = (*head)->next;
+    list_ele_t *l2 = *head;
+
+    while (l1 && l1->next) {
+        l2 = l2->next;
+        l1 = l1->next->next;
+    }
+    l1 = l2->next;
+    l2->next = NULL;
+    l2 = *head;
+
+    mergeSort(&l2);
+    mergeSort(&l1);
+
+    *head = NULL;
+    list_ele_t **tmp = head;
+
+    while (l1 && l2) {
+        if (strcmp(l1->value, l2->value) < 0) {
+            *tmp = l1;
+            l1 = l1->next;
+        } else {
+            *tmp = l2;
+            l2 = l2->next;
+        }
+        tmp = &((*tmp)->next);
+    }
+
+    *tmp = l1 ? l1 : l2;
+}
+
+/*
  * Sort elements of queue in ascending order
  * No effect if q is NULL or empty. In addition, if q has only one
  * element, do nothing.
  */
 void q_sort(queue_t *q)
 {
-    /* TODO: You need to write the code for this function */
-    /* TODO: Remove the above comment when you are about to implement. */
+    if (!q || !q->head || q->size <= 1)
+        return;
+    mergeSort(&q->head);
+
+    while (q->tail->next) {
+        q->tail = q->tail->next;
+    }
 }
