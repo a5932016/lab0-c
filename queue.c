@@ -44,7 +44,7 @@ void q_free(queue_t *q)
  */
 bool q_insert_head(queue_t *q, char *s)
 {
-    if (!q)
+    if (!q || !s)
         return false;
 
     list_ele_t *newh;
@@ -82,7 +82,7 @@ bool q_insert_head(queue_t *q, char *s)
  */
 bool q_insert_tail(queue_t *q, char *s)
 {
-    if (!q)
+    if (!q || !s)
         return false;
 
     list_ele_t *newt = malloc(sizeof(list_ele_t));
@@ -150,6 +150,8 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
  */
 int q_size(queue_t *q)
 {
+    if (!q || !q->size)
+        return 0;
     return q->size;
 }
 
